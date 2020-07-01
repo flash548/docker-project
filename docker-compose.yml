@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  backend:
+    build: sql-exercise/
+    container_name: backend
+    depends_on:
+      - 'database'
+    ports:
+      - '3000:3000'
+
+  database:
+    build: postgres-image/
+    container_name: appdb
+    volumes:
+      - myappdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: "password"
+      POSTGRES_USER: "postgres"
+      POSTGRES_DB: "postgres"
+
+# Persists data across deployments so data isn't lost
+volumes:
+  myappdata:
+    driver: local
